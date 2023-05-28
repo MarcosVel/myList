@@ -2,9 +2,9 @@ import { Feather } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { COLORS } from "../../theme/colors";
 
-export default function Button() {
+export default function Button({ ...rest }) {
   return (
-    <TouchableOpacity style={styles.button} activeOpacity={0.6}>
+    <TouchableOpacity style={styles.button} activeOpacity={0.6} {...rest}>
       <Feather name="plus-circle" size={18} color={COLORS.white} />
     </TouchableOpacity>
   );
