@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
+  Alert,
   FlatList,
   Image,
   Keyboard,
@@ -23,7 +24,16 @@ export default function App() {
   const [task, setTask] = useState("");
 
   function handleAddItem() {
+    if (task === "") {
+      return Alert.alert("Ops", "Você precisa digitar uma tarefa!");
+    }
+
+    if (list.includes(task)) {
+      return Alert.alert("Ops", "Essa tarefa já existe!");
+    }
+
     setList((prevState) => [...prevState, task]);
+    setTask("");
   }
 
   const renderEmptyList = () => (
@@ -37,37 +47,43 @@ export default function App() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={{ flex: 1 }}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <>
-            <StatusBar style="light" backgroundColor="transparent" />
+    <>
+      <SafeAreaView style={{ flex: 0, backgroundColor: COLORS.black500 }} />
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <>
+              <StatusBar style="light" backgroundColor="transparent" />
 
-            <Header />
+              <Header />
 
-            <View style={styles.add}>
-              <Input value={task} onChangeText={(text) => setTask(text)} />
-              <Button onPress={handleAddItem} />
-            </View>
+              <View style={styles.add}>
+                <Input
+                  defaultValue={task}
+                  onChangeText={(text) => setTask(text)}
+                />
+                <Button onPress={handleAddItem} />
+              </View>
 
-            <FlatList
-              data={list}
-              keyExtractor={(item, index) => item + index}
-              renderItem={({ item }) => <Item item={item} />}
-              contentContainerStyle={{
-                paddingTop: 8,
-                paddingHorizontal: 24,
-                paddingBottom: 48,
-              }}
-              windowSize={20}
-              shouldItemUpdate={(prev, next) => prev.item !== next.item}
-              ListEmptyComponent={renderEmptyList}
-              ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
-            />
-          </>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+              <FlatList
+                data={list}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({ item }) => <Item item={item} />}
+                contentContainerStyle={{
+                  paddingTop: 8,
+                  paddingHorizontal: 24,
+                  paddingBottom: 48,
+                }}
+                windowSize={20}
+                shouldItemUpdate={(prev, next) => prev.item !== next.item}
+                ListEmptyComponent={renderEmptyList}
+                ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+              />
+            </>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </>
   );
 }
 
