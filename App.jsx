@@ -4,6 +4,7 @@ import {
   Image,
   Keyboard,
   KeyboardAvoidingView,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -14,6 +15,7 @@ import Button from "./src/components/Button";
 import Header from "./src/components/Header";
 import Input from "./src/components/Input";
 import { COLORS } from "./src/theme/colors";
+import Item from "./src/components/Item";
 
 export default function App() {
   const lista = [
@@ -198,7 +200,6 @@ export default function App() {
       title: "Item 60",
     },
   ];
-  const list = [];
 
   const renderEmptyList = () => (
     <View style={styles.empty}>
@@ -211,45 +212,37 @@ export default function App() {
   );
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <>
-          <StatusBar style="light" />
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <>
+            <StatusBar style="light" backgroundColor="transparent" />
 
-          <Header />
+            <Header />
 
-          <View style={styles.add}>
-            <Input />
-            <Button />
-          </View>
+            <View style={styles.add}>
+              <Input />
+              <Button />
+            </View>
 
-          <FlatList
-            data={list}
-            keyExtractor={(item, index) => item + index}
-            renderItem={({ item, index }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  backgroundColor: COLORS.black500,
-                  padding: 16,
-                }}
-              >
-                <Text style={{ color: COLORS.white }}>{index} </Text>
-                <Text style={{ color: COLORS.white }}>{item.title}</Text>
-              </View>
-            )}
-            contentContainerStyle={{
-              paddingTop: 8,
-              paddingHorizontal: 24,
-              paddingBottom: 48,
-            }}
-            windowSize={20}
-            shouldItemUpdate={(prev, next) => prev.item !== next.item}
-            ListEmptyComponent={renderEmptyList}
-          />
-        </>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+            <FlatList
+              data={lista}
+              keyExtractor={(item, index) => item + index}
+              renderItem={({ item }) => <Item item={item} />}
+              contentContainerStyle={{
+                paddingTop: 8,
+                paddingHorizontal: 24,
+                paddingBottom: 48,
+              }}
+              windowSize={20}
+              shouldItemUpdate={(prev, next) => prev.item !== next.item}
+              ListEmptyComponent={renderEmptyList}
+              ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+            />
+          </>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
