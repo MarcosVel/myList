@@ -5,7 +5,7 @@ export default function Input() {
   return (
     <TextInput
       style={styles.input}
-      placeholder="Adicione uma nova tarefa"
+      placeholder="Adicione algo a sua lista"
       placeholderTextColor={COLORS.gray300}
     />
   );
@@ -14,6 +14,7 @@ export default function Input() {
 const styles = StyleSheet.create({
   input: {
     flex: 1,
+    height: 54,
     padding: 16,
     backgroundColor: COLORS.gray700,
     borderRadius: 6,
