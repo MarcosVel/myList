@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import {
   FlatList,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import Empty from "./src/assets/clipboard.png";
 import Button from "./src/components/Button";
 import Header from "./src/components/Header";
 import Input from "./src/components/Input";
@@ -196,6 +198,17 @@ export default function App() {
       title: "Item 60",
     },
   ];
+  const list = [];
+
+  const renderEmptyList = () => (
+    <View style={styles.empty}>
+      <Image source={Empty} />
+      <Text style={styles.emptyTitle}>Sua lista está vazia</Text>
+      <Text style={styles.emptyDescription}>
+        Adicione algo para se organizar
+      </Text>
+    </View>
+  );
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -211,7 +224,7 @@ export default function App() {
           </View>
 
           <FlatList
-            data={lista}
+            data={list}
             keyExtractor={(item, index) => item + index}
             renderItem={({ item, index }) => (
               <View
@@ -232,6 +245,7 @@ export default function App() {
             }}
             windowSize={20}
             shouldItemUpdate={(prev, next) => prev.item !== next.item}
+            ListEmptyComponent={renderEmptyList}
           />
         </>
       </TouchableWithoutFeedback>
@@ -250,5 +264,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
     marginHorizontal: 24,
+  },
+  empty: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 48,
+  },
+  emptyTitle: {
+    color: COLORS.gray300,
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 16,
+  },
+  emptyDescription: {
+    color: COLORS.gray300,
+    fontSize: 14,
   },
 });
