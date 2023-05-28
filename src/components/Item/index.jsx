@@ -23,7 +23,7 @@ export default function Item({ item }) {
         color={isSelected ? COLORS.blue500 : COLORS.ciano}
       />
       <Text style={[styles.title, isSelected && styles.checked]}>
-        {item.title}
+        {item}
       </Text>
     </TouchableOpacity>
   );

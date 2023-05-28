@@ -1,12 +1,13 @@
 import { StyleSheet, TextInput } from "react-native";
 import { COLORS } from "../../theme/colors";
 
-export default function Input() {
+export default function Input({ ...rest }) {
   return (
     <TextInput
       style={styles.input}
       placeholder="Adicione algo a sua lista"
       placeholderTextColor={COLORS.gray300}
+      {...rest}
     />
   );
 }
