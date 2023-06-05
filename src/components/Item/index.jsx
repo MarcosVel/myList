@@ -3,11 +3,11 @@ import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { COLORS } from "../../theme/colors";
 
-export default function Item({ item }) {
+export default function Item({ item, selected }) {
   const [isSelected, setIsSelected] = useState(false);
 
   function handleMark(item) {
-    console.log("handleMark", item);
+    selected(item);
     setIsSelected(!isSelected);
   }
 
@@ -22,9 +22,7 @@ export default function Item({ item }) {
         size={24}
         color={isSelected ? COLORS.blue500 : COLORS.ciano}
       />
-      <Text style={[styles.title, isSelected && styles.checked]}>
-        {item}
-      </Text>
+      <Text style={[styles.title, isSelected && styles.checked]}>{item}</Text>
     </TouchableOpacity>
   );
 }

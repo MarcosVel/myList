@@ -24,6 +24,7 @@ import { COLORS } from "./src/theme/colors";
 export default function App() {
   const [list, setList] = useState([]);
   const [task, setTask] = useState("");
+  const [selectedTasks, setSelectedTasks] = useState([]);
 
   function handleAddItem() {
     if (!task) {
@@ -42,6 +43,16 @@ export default function App() {
 
     setList((prevState) => [...prevState, task]);
     setTask("");
+  }
+
+  function handleCheck(item) {
+    if (selectedTasks.includes(item)) {
+      return setSelectedTasks((prevState) =>
+        prevState.filter((taskSelected) => taskSelected !== item)
+      );
+    }
+
+    setSelectedTasks((prevState) => [...prevState, item]);
   }
 
   const renderEmptyList = () => (
@@ -76,10 +87,30 @@ export default function App() {
                 <Button onPress={handleAddItem} />
               </View>
 
+              <View style={styles.info}>
+                <View style={styles.type}>
+                  <Text style={styles.created}>Criadas</Text>
+                  <View style={styles.quantity}>
+                    <Text style={styles.qtdNumber}>{list.length}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.type}>
+                  <Text style={[styles.created, { color: COLORS.blue500 }]}>
+                    Concluídas
+                  </Text>
+                  <View style={styles.quantity}>
+                    <Text style={styles.qtdNumber}>{selectedTasks.length}</Text>
+                  </View>
+                </View>
+              </View>
+
               <FlatList
                 data={list}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <Item item={item} />}
+                renderItem={({ item }) => (
+                  <Item item={item} selected={handleCheck} />
+                )}
                 contentContainerStyle={{
                   paddingTop: 8,
                   paddingHorizontal: 24,
@@ -110,6 +141,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
     marginHorizontal: 24,
+  },
+  info: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 32,
+    marginHorizontal: 24,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.gray500,
+  },
+  created: {
+    color: COLORS.ciano,
+    fontWeight: "bold",
+  },
+  type: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  quantity: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLORS.gray500,
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    borderRadius: 99,
+    marginLeft: 8,
+  },
+  qtdNumber: {
+    color: COLORS.white,
+    fontSize: 13,
+    fontWeight: "bold",
   },
   empty: {
     flex: 1,
