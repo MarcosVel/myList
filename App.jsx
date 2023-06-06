@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { useState } from "react";
 import {
   Alert,
@@ -55,6 +56,10 @@ export default function App() {
     setSelectedTasks((prevState) => [...prevState, item]);
   }
 
+  function handleDeletion(item) {
+    console.log("handleDeletion", item);
+  }
+
   const renderEmptyList = () => (
     <View style={styles.empty}>
       <Image source={Empty} />
@@ -109,11 +114,11 @@ export default function App() {
                 data={list}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => (
-                  <Item item={item} selected={handleCheck} />
+                  <Item item={item} selected={handleCheck} remove={handleDeletion} />
                 )}
                 contentContainerStyle={{
                   paddingTop: 8,
-                  paddingHorizontal: 24,
+                  // paddingHorizontal: 24,
                   paddingBottom: 48,
                   flexDirection: "column-reverse",
                   gap: 8,
