@@ -1,14 +1,12 @@
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import {
-  Animated,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+  GestureHandlerRootView,
+  RectButton,
+} from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import { COLORS } from "../../theme/colors";
-import { RectButton, Swipeable } from "react-native-gesture-handler";
 
 export default function Item({ item, selected, remove }) {
   const [isSelected, setIsSelected] = useState(false);
@@ -19,30 +17,34 @@ export default function Item({ item, selected, remove }) {
   }
 
   return (
-    <Swipeable
-      containerStyle={{ paddingHorizontal: 24, justifyContent: "center" }}
-      overshootRight={false}
-      renderRightActions={() => (
-        <RectButton style={styles.remove} onPress={() => remove(item)}>
-          <Feather name="trash" size={20} color="white" />
-        </RectButton>
-      )}
-    >
-      <RectButton
-        style={styles.container}
-        activeOpacity={0.6}
-        onPress={() => handleMark(item)}
+    <GestureHandlerRootView>
+      <Swipeable
+        containerStyle={{ paddingHorizontal: 24, justifyContent: "center" }}
+        overshootRight={false}
+        renderRightActions={() => (
+          <RectButton style={styles.remove} onPress={() => remove(item)}>
+            <Feather name="trash" size={20} color="white" />
+          </RectButton>
+        )}
       >
-        <View accessible accessibilityRole="button">
-          <Ionicons
-            name={isSelected ? "checkmark-circle" : "radio-button-off"}
-            size={24}
-            color={isSelected ? COLORS.blue500 : COLORS.ciano}
-          />
-        </View>
-        <Text style={[styles.title, isSelected && styles.checked]}>{item}</Text>
-      </RectButton>
-    </Swipeable>
+        <RectButton
+          style={styles.container}
+          activeOpacity={0.6}
+          onPress={() => handleMark(item)}
+        >
+          <View accessible accessibilityRole="button">
+            <Ionicons
+              name={isSelected ? "checkmark-circle" : "radio-button-off"}
+              size={24}
+              color={isSelected ? COLORS.blue500 : COLORS.ciano}
+            />
+          </View>
+          <Text style={[styles.title, isSelected && styles.checked]}>
+            {item}
+          </Text>
+        </RectButton>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 }
 
