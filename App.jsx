@@ -57,7 +57,25 @@ export default function App() {
   }
 
   function handleDeletion(item) {
-    console.log("handleDeletion", item);
+    Alert.alert(
+      "Remover Tarefa",
+      `Deseja realmente remover essa tarefa?\n"${item}"`,
+      [
+        {
+          text: "Sim",
+          onPress: () => {
+            setList((prevState) => prevState.filter((tasks) => tasks !== item)),
+              setSelectedTasks((prevState) =>
+                prevState.filter((tasksSelected) => tasksSelected !== item)
+              );
+          },
+        },
+        {
+          text: "Não",
+          style: "cancel",
+        },
+      ]
+    );
   }
 
   const renderEmptyList = () => (
@@ -114,7 +132,11 @@ export default function App() {
                 data={list}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => (
-                  <Item item={item} selected={handleCheck} remove={handleDeletion} />
+                  <Item
+                    item={item}
+                    selected={handleCheck}
+                    remove={handleDeletion}
+                  />
                 )}
                 contentContainerStyle={{
                   paddingTop: 8,
