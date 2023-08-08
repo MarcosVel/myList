@@ -16,7 +16,7 @@ Aplicativo para registro de tarefas.
 Clone o projeto em sua máquina
 
 ```bash
-  git clone https://github.com/MarcosVel/myList
+  git clone https://github.com/MarcosVel/myList.git
 ```
 
 Instale as dependências
